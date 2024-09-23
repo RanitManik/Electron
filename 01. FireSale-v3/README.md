@@ -1,21 +1,37 @@
-[![Frontend Masters](https://static.frontendmasters.com/assets/brand/logos/full.png)][fem]
+# FireSale
 
-# Firesale
-
-This is a companion repo for the [Electron-v3][course] course on [Frontend Masters][fem].
+FireSale is a simple Markdown editor built with Electron and Vite.
 
 ## Setup
 
-Make sure you have [Node.js](https://nodejs.org/) v16 or newer, [Git](https://git-scm.com/), and the [Yarn](https://yarnpkg.com/) package manager installed.
+To get started with FireSale, ensure you have the following installed on your machine:
 
-Run `npm i -g yarn` to globally install Yarn
+- [Node.js](https://nodejs.org/) v16 or newer
+- [Git](https://git-scm.com/)
+- [Yarn](https://yarnpkg.com/)
 
-The following commands will install the repo dependencies and start the Firesale application.
+### Global Yarn Installation
 
+If you don’t have Yarn installed globally, you can do so by running:
+
+```bash
+npm i -g yarn
 ```
-npm i
-npm start
-```
 
-[fem]: https://frontendmasters.com
-[course]: https://frontendmasters.com/courses/electron-v3/
+### Installing Dependencies
+
+Once you have the necessary tools installed, follow these steps to set up the project:
+
+1. Install the dependencies:
+
+   ```bash
+   npm i
+   ```
+
+2. Start the FireSale application:
+
+   ```bash
+   npm start
+   ```
+
+Now you’re ready to use FireSale!

@@ -1,5 +1,6 @@
 import { app, BrowserWindow, dialog } from "electron";
 import { join } from "path";
+import { readFile } from "node:fs/promises";
 
 const createWindow = () => {
     const mainWindow = new BrowserWindow({
@@ -7,22 +8,22 @@ const createWindow = () => {
         height: 600,
         show: false,
         webPreferences: {
-            preload: join(__dirname, "preload.js"),
-        },
+            preload: join(__dirname, "preload.js")
+        }
     });
 
     if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
         mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
     } else {
         mainWindow.loadFile(
-            join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
+            join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
         );
     }
 
     mainWindow.once("ready-to-show", () => {
         mainWindow.show();
         mainWindow.focus();
-        showOpenDialog();
+        showOpenDialog(mainWindow);
     });
 };
 
@@ -40,10 +41,21 @@ app.on("activate", () => {
     }
 });
 
-const showOpenDialog = async () => {
-    const result = await dialog.showOpenDialog({
+const showOpenDialog = async (browserWindow: BrowserWindow) => {
+    const result = await dialog.showOpenDialog(browserWindow, {
         properties: ["openFile"],
-        filters: [{ name: "Markdown File", extensions: ["md"] }],
+        filters: [{ name: "Markdown File", extensions: ["md"] }]
     });
-    console.log(result);
+
+    if (result.canceled) return;
+
+    const [filePath] = result.filePaths;
+
+    openFile(browserWindow, filePath);
+};
+
+const openFile = async (browserWindow: BrowserWindow, filePath: string) => {
+    const content = await readFile(filePath, { encoding: "utf8" });
+
+    browserWindow.webContents.send("file-opened", content, filePath);
 };
